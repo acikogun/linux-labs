@@ -1,0 +1,22 @@
+# gateway-router
+
+Vagrant.configure(2) do |config|
+    config.vm.synced_folder ".", "/vagrant"
+    config.vm.provision "shell",
+        inline: "cp /vagrant/globals.sh /etc/profile.d/"
+
+    config.vm.define "router" do |s1|
+        s1.vm.box = "centos/7"
+        s1.vm.network :private_network, virtualbox__intnet: "network0"
+        s1.vm.hostname = "router.localdomain"
+        s1.vm.provision "shell", path: "os-upgrade.sh", reboot: true
+        s1.vm.provision "shell", path: "router.sh", reboot: true
+    end
+    config.vm.define "client" do |s2|
+        s2.vm.box = "centos/7"
+        s2.vm.network :private_network, virtualbox__intnet: "network0"
+        s2.vm.hostname = "client.localdomain"
+        s2.vm.provision "shell", path: "os-upgrade.sh", reboot: true
+        s2.vm.provision "shell", path: "client.sh"
+    end
+  end
