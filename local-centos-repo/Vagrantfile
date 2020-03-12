@@ -1,0 +1,22 @@
+# local-centos-repo
+
+Vagrant.configure(2) do |config|
+    config.vm.synced_folder ".", "/vagrant"
+    config.vm.provision "shell",
+        inline: "cp /vagrant/globals.sh /etc/profile.d/"
+
+    config.vm.define "local-repo" do |s1|
+        s1.vm.box = "centos/7"
+        s1.vm.network :private_network, ip: "192.168.50.11", virtualbox__intnet: "network0"
+        s1.vm.hostname = "local-repo.localdomain"
+        s1.vm.provision "shell", path: "os-upgrade.sh", reboot: true
+        s1.vm.provision "shell", path: "local-repo.sh"
+    end
+    config.vm.define "client" do |s2|
+        s2.vm.box = "centos/7"
+        s2.vm.network :private_network, ip: "192.168.50.12", virtualbox__intnet: "network0"
+        s2.vm.hostname = "client.localdomain"
+        s2.vm.provision "shell", path: "os-upgrade.sh", reboot: true
+        s2.vm.provision "shell", path: "client.sh"
+    end
+  end
