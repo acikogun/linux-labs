@@ -1,0 +1,33 @@
+# kerberized-nfs-server
+
+Vagrant.configure(2) do |config|
+    config.vm.synced_folder ".", "/vagrant"
+    config.vm.provision "shell",
+        inline: "cp /vagrant/globals.sh /etc/profile.d/freeipa-settings.sh"
+
+    config.vm.define "ipa-server" do |s1|
+        config.vm.provider "virtualbox" do |v|
+            v.memory = 2048
+            v.cpus = 4
+        end
+        s1.vm.box = "centos/7"
+        s1.vm.network :private_network, ip: "192.168.50.11", virtualbox__intnet: "network0"
+        s1.vm.hostname = "ipa-server.ipa.acik.work"
+        s1.vm.provision "shell", path: "os-upgrade.sh", reboot: true
+        s1.vm.provision "shell", path: "ipa-server.sh"
+    end
+    config.vm.define "nfs-server" do |s2|
+        s2.vm.box = "centos/7"
+        s2.vm.network :private_network, ip: "192.168.50.12", virtualbox__intnet: "network0"
+        s2.vm.hostname = "nfs-server.ipa.acik.work"
+        s2.vm.provision "shell", path: "os-upgrade.sh", reboot: true
+        s2.vm.provision "shell", path: "nfs-server.sh"
+    end
+    config.vm.define "nfs-client" do |s3|
+        s3.vm.box = "centos/7"
+        s3.vm.network :private_network, ip: "192.168.50.13", virtualbox__intnet: "network0"
+        s3.vm.hostname = "nfs-client.ipa.acik.work"
+        s3.vm.provision "shell", path: "os-upgrade.sh", reboot: true
+        s3.vm.provision "shell", path: "nfs-client.sh"
+    end
+  end
