@@ -1,0 +1,42 @@
+# keepalived-haproxy-apache
+
+HAPROXY1_PUBLIC = "192.168.1.13"
+HAPROXY2_PUBLIC = "192.168.1.14"
+
+Vagrant.configure(2) do |config|
+    config.vm.provision "shell",
+        inline: "cp /vagrant/globals.sh /etc/profile.d/"
+
+    config.vm.define "httpd-1" do |s1|
+        s1.vm.box = "centos/7"
+        s1.vm.network :private_network, ip: "192.168.50.11", virtualbox__intnet: "network0"
+        s1.vm.hostname = "httpd-1.lab.example.com"
+        s1.vm.provision "shell", path: "os-upgrade.sh", reboot: true
+        s1.vm.provision "shell", path: "httpd-1.sh"
+    end
+    config.vm.define "httpd-2" do |s2|
+        s2.vm.box = "centos/7"
+        s2.vm.network :private_network, ip: "192.168.50.12", virtualbox__intnet: "network0"
+        s2.vm.hostname = "httpd-2.lab.example.com"
+        s2.vm.provision "shell", path: "os-upgrade.sh", reboot: true
+        s2.vm.provision "shell", path: "httpd-2.sh"
+    end
+    config.vm.define "haproxy-1" do |s3|
+        s3.vm.box = "centos/7"
+        s3.vm.network "public_network", ip: HAPROXY1_PUBLIC
+        s3.vm.network :private_network, ip: "192.168.50.13", virtualbox__intnet: "network0"
+        s3.vm.hostname = "haproxy-1.lab.example.com"
+        s3.vm.network "forwarded_port", guest: 80, host: 81, protocol: "tcp"
+        s3.vm.provision "shell", path: "os-upgrade.sh", reboot: true
+        s3.vm.provision "shell", path: "haproxy-1.sh"
+    end
+    config.vm.define "haproxy-2" do |s4|
+        s4.vm.box = "centos/7"
+        s4.vm.network "public_network", ip: HAPROXY2_PUBLIC
+        s4.vm.network :private_network, ip: "192.168.50.14", virtualbox__intnet: "network0"
+        s4.vm.hostname = "haproxy-2.lab.example.com"
+        s4.vm.network "forwarded_port", guest: 80, host: 82, protocol: "tcp"
+        s4.vm.provision "shell", path: "os-upgrade.sh", reboot: true
+        s4.vm.provision "shell", path: "haproxy-2.sh"
+    end
+  end
