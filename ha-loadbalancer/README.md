@@ -54,7 +54,7 @@ HAPROXY1_PUBLIC = "192.168.1.13"
 HAPROXY2_PUBLIC = "192.168.1.14"
 ```
 
-`globals.sh`
+globals.sh
 ```
 export HAPROXY1_PUB="192.168.1.13"
 export HAPROXY2_PUB="192.168.1.14"
@@ -132,7 +132,7 @@ listening on eth1, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ### In haproxy-1
 
-Stop the httpd service.
+Stop the **httpd** service.
 
 When Keepalived health check for **httpd** service fails, It will stop sending advertisements to backup node.
 

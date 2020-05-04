@@ -1,4 +1,4 @@
-# CentOS 7 as a local rpm mirror
+# CentOS 7 as a local rpm repository mirror
 
 ## Overview
 
