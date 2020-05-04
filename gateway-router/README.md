@@ -37,12 +37,12 @@ sudo -i
 
 ### Get the IPv4 address of the private interface(eth1)
 ```bash
-ETH1_IP4=$(hostname -I | awk '{ print $1 }')
+ETH1_IP4=$(hostname -I | awk '{ print $2 }')
 ```
 
 ### Ping anywhere from the private interface
 ```bash
-ping example.com -I ${ETH1_IP4}
+ping google.com -I ${ETH1_IP4}
 ```
 
 ## Clean up

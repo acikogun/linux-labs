@@ -2,7 +2,7 @@
 
 source /etc/profile.d/globals.sh
 
-ETH1_IP4=$(hostname -I | awk '{ print $1 }')
+ETH1_IP4=$(hostname -I | awk '{ print $2 }')
 
 echo
 echo
