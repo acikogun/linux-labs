@@ -113,9 +113,9 @@ tcpdump -c 4 -ni eth1 vrrp
 
 Both tcpdump outputs must be something like below. (192.168.1.13 > 192.168.1.14)
 
-Master node sends advertisement messages to backup node.
-
 Keepalived nodes send messages over **VRRP** protocol.
+
+In the tcpdump output below, the master node sends advertisement messages to the backup node.
 
 If the backup node can't get advertisements, it becomes new master and takes over the virtual IP.
 
@@ -132,14 +132,14 @@ listening on eth1, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ### In haproxy-1
 
-Stop the **httpd** service.
+Stop the **haproxy** service.
 
-When Keepalived health check for **httpd** service fails, It will stop sending advertisements to backup node.
+When Keepalived health check for **haproxy** service fails, It will stop sending advertisements to backup node.
 
 Then backup node will take over the virtual IP.
 
 ```bash
-systemctl stop httpd
+systemctl stop haproxy
 ```
 
 Repeat the testing steps above and ensure that virtual IP is assigned to eth1 on **haproxy-2**
