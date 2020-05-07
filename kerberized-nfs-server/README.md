@@ -60,6 +60,7 @@ The architecture is made up of 3 main servers:
 ## Requirements
 - Vagrant
 - VirtualBox
+- At least 6GB RAM on your host machine
 
 ## Install
 

@@ -21,11 +21,11 @@ You will have two main advantages by adopting this architecture:
 
 - A daily cron job is created on **local-repo** to sync repos from external mirrors.
 
-- **reposync** and **create** tools are utilized to sync and create local mirrors.
+- **reposync** and **createrepo** tools are utilized to sync and create local mirrors.
 
 - This is just a showcase for CentOS/7(x86_64). You should consider other releases and archs too.
 
-- It will download about 10GBs and may take a long time.
+- It will download about 12GB and may take a long time.
 
 ## Requirements
 
@@ -70,7 +70,7 @@ yum install -y java
 
 ### Test groups
 ```bash
-yum group list
+yum groups list
 ```
 
 ```bash
