@@ -12,12 +12,14 @@ The active load balancer **haproxy-1** will route traffic to web servers **httpd
 
 **HAProxy** is a free, very fast and reliable solution offering high availability, load balancing, and proxying for TCP and HTTP-based applications. In this stack, it serves as a simple HTTP load balancer and listens on the virtual IP that is allocated by Keepalived.
 
-**Keepalived** is used for high availability so if one primary server stops working, the load balancer fails over to the backup or secondary server.
+**Keepalived** is used for high availability so if one primary server stops working, the load balancer fails over to the backup/secondary server.
 
 Keepalived allocates a virtual IP from the same network and binds it to master server. When a failover happens,
 Keepalived removes the virtual IP from the server's configuration and enables it on the backup server that is currently chosen to route traffic.
 
-The other two servers will the web servers with **apache http server** and to see the load balancing in action,
+Other two servers will be the web servers powered by **apache http server**.
+
+To see the load balancing in action,
 they will serve their private IPs and hostnames.
 
 httpd-1
@@ -30,7 +32,7 @@ httpd-2
 192.168.50.12 httpd-2.lab.example.com
 ```
 
-All components are automatically installed with via Vagrant.
+All components are automatically installed via Vagrant.
 
 
 ## Architecture
