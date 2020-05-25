@@ -26,7 +26,6 @@ Vagrant.configure(2) do |config|
         s3.vm.network "public_network", ip: HAPROXY1_PUBLIC
         s3.vm.network :private_network, ip: "192.168.50.13", virtualbox__intnet: "network0"
         s3.vm.hostname = "haproxy-1.lab.example.com"
-        s3.vm.network "forwarded_port", guest: 80, host: 81, protocol: "tcp"
         s3.vm.provision "shell", path: "os-upgrade.sh", reboot: true
         s3.vm.provision "shell", path: "haproxy-1.sh"
     end
@@ -35,7 +34,6 @@ Vagrant.configure(2) do |config|
         s4.vm.network "public_network", ip: HAPROXY2_PUBLIC
         s4.vm.network :private_network, ip: "192.168.50.14", virtualbox__intnet: "network0"
         s4.vm.hostname = "haproxy-2.lab.example.com"
-        s4.vm.network "forwarded_port", guest: 80, host: 82, protocol: "tcp"
         s4.vm.provision "shell", path: "os-upgrade.sh", reboot: true
         s4.vm.provision "shell", path: "haproxy-2.sh"
     end
